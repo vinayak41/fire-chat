@@ -5,10 +5,11 @@ import {
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  SET_USER,
 } from "../typeConstants/userTypeConstants";
 
 // const initialState = { isAuthenticated: false, message: {type: "error", text: "message here"} };
-const initialState = { isAuthenticated: false, message: null };
+const initialState = { username: null, isAuthenticated: false, message: null };
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -22,17 +23,18 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         message: null,
+        username: action.payload.user.username,
       };
     case LOGIN_FAILED:
       return {
         ...state,
         message: { type: "error", text: action.payload },
       };
-    case REGISTER_REQUEST: 
+    case REGISTER_REQUEST:
       return {
         ...state,
-        message: null
-      }
+        message: null,
+      };
     case REGISTER_FAILED:
       return {
         ...state,
@@ -41,8 +43,16 @@ export default (state = initialState, action) => {
     case REGISTER_SUCCESS:
       return {
         ...state,
-        message: { type: "success", text: "User registration Successful! Please login"}
-      }
+        message: {
+          type: "success",
+          text: "User registration Successful! Please login",
+        },
+      };
+    case SET_USER:
+      return {
+        username: action.payload,
+        isAuthenticated: true,
+      };
     default:
       return state;
   }

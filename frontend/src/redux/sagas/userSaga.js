@@ -11,9 +11,11 @@ function* login(action) {
       url: `${USER_API}/login`,
       data: action.payload,
     });
-    yield put(loginSuccess(response.data.token));
+    yield put(loginSuccess(response.data));
+    yield call(localStorage.setItem("user-token", response.data.token))
   } catch (error) {
-    yield put(loginFailed(error.response.data.message))
+    console.log(error.response)
+    yield put(loginFailed(error?.response?.data?.message))
   }
 }
 

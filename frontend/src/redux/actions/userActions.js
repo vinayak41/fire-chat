@@ -5,6 +5,7 @@ import {
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  SET_USER,
 } from "../typeConstants/userTypeConstants";
 
 export const loginRequest = (data) => {
@@ -47,3 +48,10 @@ export const registerFailed = (errorMessage) => {
     payload: errorMessage,
   };
 };
+
+export const setUser = (username) => {
+  return {
+    type: SET_USER,
+    payload: username
+  }
+}
