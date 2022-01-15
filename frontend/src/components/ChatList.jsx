@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import socket from "../socket.io";
 import ChatListItem from "./ChatListItem";
 
 const ChatListWrapper = styled.div`
@@ -20,17 +22,27 @@ const Title = styled.p`
   letter-spacing: 2px;
 `;
 
-const ChatList = () => {
+const ChatList = ({ conversationPartner, setConversationPartner }) => {
+  const [connectedUsers, setConnectedUsers] = useState([]);
+  const { username } = useSelector((state) => state.user);
+  useEffect(() => {
+    socket.on("connected_users", (payload) => {
+      setConnectedUsers(payload);
+    });
+  });
   return (
     <ChatListWrapper>
       <Header>Chat App</Header>
-      <Title>Online</Title>
-      <ChatListItem />
-      <ChatListItem active />
-      <ChatListItem />
-      <Title>Offline</Title>
-      <ChatListItem />
-      <ChatListItem />
+      {connectedUsers.map((user) =>
+        user.username === username ? null : (
+          <ChatListItem
+            key={user.username}
+            user={user}
+            conversationPartner={conversationPartner}
+            setConversationPartner={setConversationPartner}
+          />
+        )
+      )}
     </ChatListWrapper>
   );
 };

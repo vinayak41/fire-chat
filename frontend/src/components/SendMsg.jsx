@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { BsEmojiLaughing } from "react-icons/bs";
 import { GrAttachment } from "react-icons/gr";
 import { RiSendPlaneFill } from "react-icons/ri";
+import socket from "../socket.io";
+import { useDispatch, useSelector } from "react-redux";
+import { newMessageSent } from "../redux/actions/conversationActions";
 
 const SendMsgWrapper = styled.div`
   height: 3.5rem;
@@ -55,12 +58,37 @@ const FormWrapper = styled.div`
   }
 `;
 
-const SendMsg = () => {
+const SendMsg = ({ conversationPartner }) => {
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState("");
+  const { username } = useSelector((state) => state.user);
+
+  const handleMsgChange = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handelSendMsg = (event) => {
+    event.preventDefault();
+    const messageObj = {
+      receiver: conversationPartner,
+      text: message,
+      sender: username,
+    };
+    if (message.length > 0) {
+      socket.emit("send_message", messageObj);
+      dispatch(newMessageSent(messageObj));
+      setMessage("")
+    }
+  };
   return (
     <SendMsgWrapper>
       <FormWrapper>
-        <form>
-          <input placeholder="Write your message..."></input>
+        <form onSubmit={handelSendMsg}>
+          <input
+            placeholder="Write your message..."
+            value={message}
+            onChange={handleMsgChange}
+          ></input>
           <button type="submit">
             <RiSendPlaneFill size={24} />
           </button>

@@ -20,10 +20,9 @@ const MessageBox = styled.div`
 `;
 
 const Message = ({ text, own }) => {
-  console.log(own);
   return (
-    <Wrapper own={own || false}>
-      <MessageBox own={own || false}>{text}</MessageBox>
+    <Wrapper own={own}>
+      <MessageBox own={own}>{text}</MessageBox>
     </Wrapper>
   );
 };

@@ -59,21 +59,21 @@ const UnreadMsgCount = styled.span`
   margin-left: 5px;
 `;
 
-const ChatListItem = ({ active }) => {
+const ChatListItem = ({ user, conversationPartner, setConversationPartner }) => {
   return (
-    <Wrapper active={active || false}>
+    <Wrapper active={user.username === conversationPartner} onClick={() => setConversationPartner(user.username)}>
       <div>
         <Avatar>
           <img src={dummyProfilePic} alt="dog" />
         </Avatar>
         <NameAndLastMsg>
-          <p>Vinayak khandekar</p>
-          <span>Last Message</span>
+          <p>{user.username}</p>
+          {/* <span>Last Message</span> */}
         </NameAndLastMsg>
       </div>
       <LastMsgDay>
-        30/11/2021
-        <UnreadMsgCount>3</UnreadMsgCount>
+        {/* 30/11/2021 */}
+        {/* <UnreadMsgCount>3</UnreadMsgCount>s */}
       </LastMsgDay>
     </Wrapper>
   );

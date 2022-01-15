@@ -43,16 +43,16 @@ const NameAndStatus = styled.div`
   }
 `;
 
-const Header = () => {
+const Header = ({conversationPartner}) => {
   return (
     <HeaderWrapper>
       <Avatar>
         <img src={dummyProfilePic} alt={dummyProfilePic} />
       </Avatar>
       <NameAndStatus>
-        <p>Vinayak khandekar</p>
+        <p>{conversationPartner}</p>
         <span>
-          <span></span> Online
+          {/* <span></span> Online */}
         </span>
       </NameAndStatus>
     </HeaderWrapper>

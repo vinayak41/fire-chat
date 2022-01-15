@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Header from "./Header";
 import SendMsg from "./SendMsg";
 import Messages from "./Messages";
+import conversationIcon from "../assets/conversation.png"
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   flex-grow: 1;
@@ -17,12 +19,33 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const ChatBox = () => {
+const DefaultScreen = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & p {
+    font-size: 2rem;
+  }
+  & img {
+    width: 7rem;
+    height: 7rem;
+  }
+`
+
+const ChatBox = ({conversationPartner}) => {
+  const conversations = useSelector( state => state.conversations)
+  const conversation = conversations?.find( conversation => conversation.partner === conversationPartner)
   return (
     <Wrapper>
-      <Header />
-      <Messages />
-      <SendMsg />
+      {conversationPartner ? <><Header conversationPartner={conversationPartner} />
+      <Messages messages={conversation?.messages} />
+      <SendMsg conversationPartner={conversationPartner} /></> : <DefaultScreen>
+        <p>Select user to start conversation</p>
+        <img src={conversationIcon} alt="conversation" />
+      </DefaultScreen> }
     </Wrapper>
   );
 };
