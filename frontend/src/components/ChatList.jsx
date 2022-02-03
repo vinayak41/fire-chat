@@ -16,6 +16,7 @@ const ChatListWrapper = styled.div`
 
 const Header = styled.h2`
   color: #bdc2d3;
+  margin-top: 5px;
 `;
 const Title = styled.p`
   color: #bdc2d3;
@@ -32,7 +33,9 @@ const ChatList = ({ conversationPartner, setConversationPartner }) => {
   });
   return (
     <ChatListWrapper>
-      <Header>Chat App</Header>
+      <Header>
+        🔥 fire.chat
+      </Header>
       {connectedUsers.map((user) =>
         user.username === username ? null : (
           <ChatListItem
