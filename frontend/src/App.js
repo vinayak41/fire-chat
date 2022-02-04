@@ -25,11 +25,9 @@ const AppWrapper = styled.div`
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user);
 
   useEffect(() => {
     const token = localStorage.getItem("user-token");
-    console.log(token);
     if (token) {
       try {
         const decoded = jwt_decode(token);

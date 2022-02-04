@@ -73,7 +73,7 @@ const UserWrapper = styled.div`
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: #34d598;
+      /* background-color: #34d598; */
     }
   }
 `;

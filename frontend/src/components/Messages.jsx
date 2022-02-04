@@ -5,6 +5,8 @@ import Message from "./Message";
 
 const Wrapper = styled.div`
   flex-grow: 1;
+  /* max-height: 76vh; */
+  overflow-y: scroll;
 `;
 
 const Messages = ({messages}) => {

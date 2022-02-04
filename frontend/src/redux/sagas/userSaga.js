@@ -24,7 +24,6 @@ function* login(action) {
     yield put(loginSuccess(response.data));
     yield call(localStorage.setItem("user-token", response.data.token));
   } catch (error) {
-    console.log(error.response);
     yield put(loginFailed(error?.response?.data?.message));
   }
 }
