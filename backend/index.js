@@ -65,8 +65,10 @@ io.on("connection", (socket) => {
     //send message to receiver
     const receiverSocketId = connectedUsers.find(
       (user) => user.username === message.receiver
-    ).socketId;
-    io.to(receiverSocketId).emit("new_message", message);
+    )?.socketId;
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("new_message", message);
+    }
 
     // save message in database
     await Conversations.findOneAndUpdate(

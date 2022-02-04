@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Header from "./Header";
 import SendMsg from "./SendMsg";
 import Messages from "./Messages";
-import conversationIcon from "../assets/conversation.png"
-import { useSelector } from "react-redux";
+import conversationIcon from "../assets/conversation.png";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewConversation } from "../redux/actions/conversationActions";
 
 const Wrapper = styled.div`
   flex-grow: 1;
@@ -33,19 +34,31 @@ const DefaultScreen = styled.div`
     width: 7rem;
     height: 7rem;
   }
-`
+`;
 
-const ChatBox = ({conversationPartner}) => {
-  const conversations = useSelector( state => state.conversations)
-  const conversation = conversations?.find( conversation => conversation.partner === conversationPartner)
+const ChatBox = ({ conversationPartner }) => {
+  const dispatch = useDispatch();
+  const conversations = useSelector((state) => state.conversations);
+  const conversation = conversations?.find(
+    (conversation) => conversation.partner === conversationPartner
+  );
+  if (!conversation && conversationPartner) {
+    dispatch(createNewConversation(conversationPartner));
+  }
   return (
     <Wrapper>
-      {conversationPartner ? <><Header conversationPartner={conversationPartner} />
-      <Messages messages={conversation?.messages} />
-      <SendMsg conversationPartner={conversationPartner} /></> : <DefaultScreen>
-        <p>Select user to start conversation</p>
-        <img src={conversationIcon} alt="conversation" />
-      </DefaultScreen> }
+      {conversationPartner ? (
+        <>
+          <Header conversationPartner={conversationPartner} />
+          <Messages messages={conversation?.messages} />
+          <SendMsg conversationPartner={conversationPartner} />
+        </>
+      ) : (
+        <DefaultScreen>
+          <p>Select user to start conversation</p>
+          <img src={conversationIcon} alt="conversation" />
+        </DefaultScreen>
+      )}
     </Wrapper>
   );
 };

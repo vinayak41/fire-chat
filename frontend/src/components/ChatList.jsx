@@ -25,24 +25,19 @@ const Title = styled.p`
 `;
 
 const ChatList = ({ conversationPartner, setConversationPartner }) => {
-  const [connectedUsers, setConnectedUsers] = useState([]);
+  const conversations = useSelector((state) => state.conversations);
   const { username } = useSelector((state) => state.user);
-  useEffect(() => {
-    socket.on("connected_users", (payload) => {
-      setConnectedUsers(payload);
-    });
-  });
   return (
     <ChatListWrapper>
       <Header>
         🔥 fire.chat
-        <FindFreinds />
+        <FindFreinds setConversationPartner={setConversationPartner} />
       </Header>
-      {connectedUsers.map((user) =>
-        user.username === username ? null : (
+      {conversations.map((conversation) =>
+        conversation.partner === username ? null : (
           <ChatListItem
-            key={user.username}
-            user={user}
+            key={conversation.partner}
+            user={{username: conversation.partner}}
             conversationPartner={conversationPartner}
             setConversationPartner={setConversationPartner}
           />

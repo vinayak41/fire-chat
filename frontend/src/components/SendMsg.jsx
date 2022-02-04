@@ -74,6 +74,7 @@ const SendMsg = ({ conversationPartner }) => {
       text: message,
       sender: username,
     };
+    console.log({messageObj})
     if (message.length > 0) {
       socket.emit("send_message", messageObj);
       dispatch(newMessageSent(messageObj));

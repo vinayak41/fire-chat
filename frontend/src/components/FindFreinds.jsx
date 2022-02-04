@@ -42,7 +42,7 @@ const SearchInput = styled.input`
 `;
 
 const ListWrapper = styled.div`
-  max-height: 80vh;
+  height: 80vh;
   overflow-y: scroll;
   margin-top: 3.3rem;
 `;
@@ -91,9 +91,9 @@ const ProfilePicContainer = styled.div`
   }
 `;
 
-const User = ({ username }) => {
+const User = ({ username, onClick }) => {
   return (
-    <UserWrapper>
+    <UserWrapper onClick={onClick}>
       <div>
         <ProfilePicContainer>
           <img src={dummyProfilePic} alt="profile" />
@@ -107,13 +107,15 @@ const User = ({ username }) => {
   );
 };
 
-const FindFreinds = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const FindFreinds = ({ setConversationPartner }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const { all } = useSelector((state) => state.user);
+  const { all, username } = useSelector((state) => state.user);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredUsersList = all?.filter( user => user.username.includes(searchValue))
+  const filteredUsersList = all?.filter((user) =>
+    user.username.includes(searchValue) && user.username !== username
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -129,9 +131,14 @@ const FindFreinds = () => {
     setIsOpen(false);
   };
 
-  const handleSearchValueChange =(event) => {
-    setSearchValue(event.target.value)
-  }
+  const handleSearchValueChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleUserClick = (username) => {
+    setConversationPartner(username);
+    handleClose();
+  };
 
   return (
     <>
@@ -140,14 +147,22 @@ const FindFreinds = () => {
       </Button>
       <Modal isOpen={isOpen} handleClose={handleClose}>
         <Container>
-          <SearchInput placeholder="Search" value={searchValue} onChange={handleSearchValueChange}/>
+          <SearchInput
+            placeholder="Search"
+            value={searchValue}
+            onChange={handleSearchValueChange}
+          />
           <ListWrapper>
             {filteredUsersList?.map((user) => (
-              <User key={user.id} username={user.username} />
+              <User
+                onClick={() => handleUserClick(user.username)}
+                key={user.id}
+                username={user.username}
+              />
             ))}
-            {/* {all?.map((user) => (
-              <User key={user.id} username={user.username} />
-            ))} */}
+            {filteredUsersList?.length === 0 ? (
+              <p style={{ textAlign: "center" }}>User not found</p>
+            ) : null}
           </ListWrapper>
         </Container>
       </Modal>
