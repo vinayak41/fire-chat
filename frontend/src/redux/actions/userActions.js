@@ -1,10 +1,12 @@
 import {
+  GET_ALL_USERS,
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  SET_ALL_USERS,
   SET_USER,
 } from "../typeConstants/userTypeConstants";
 
@@ -52,6 +54,19 @@ export const registerFailed = (errorMessage) => {
 export const setUser = (username) => {
   return {
     type: SET_USER,
-    payload: username
-  }
-}
+    payload: username,
+  };
+};
+
+export const getAllUsers = () => {
+  return {
+    type: GET_ALL_USERS,
+  };
+};
+
+export const setAllUsers = (users) => {
+  return {
+    type: SET_ALL_USERS,
+    payload: users,
+  };
+};

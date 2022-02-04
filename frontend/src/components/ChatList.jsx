@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import socket from "../socket.io";
 import ChatListItem from "./ChatListItem";
+import FindFreinds from "./FindFreinds";
 
 const ChatListWrapper = styled.div`
   background-color: #06103a;
@@ -35,6 +36,7 @@ const ChatList = ({ conversationPartner, setConversationPartner }) => {
     <ChatListWrapper>
       <Header>
         🔥 fire.chat
+        <FindFreinds />
       </Header>
       {connectedUsers.map((user) =>
         user.username === username ? null : (

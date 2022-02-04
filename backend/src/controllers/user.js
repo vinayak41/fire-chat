@@ -40,8 +40,13 @@ const login = async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch)
         return res.status(400).json({ message: "Incorrect password" });
-      const token = await jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
-      return res.status(200).json({ token, message: "Signin successful", user });
+      const token = await jwt.sign(
+        { userId: user._id, username: user.username },
+        JWT_SECRET
+      );
+      return res
+        .status(200)
+        .json({ token, message: "Signin successful", user });
     } else {
       return res.status(400).json({ message: "User does not exist" });
     }
@@ -50,4 +55,13 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { getUser, createUser, login };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getUser, createUser, login, getAllUsers };

@@ -5,6 +5,7 @@ import {
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  SET_ALL_USERS,
   SET_USER,
 } from "../typeConstants/userTypeConstants";
 
@@ -50,9 +51,15 @@ export default (state = initialState, action) => {
       };
     case SET_USER:
       return {
+        ...state,
         username: action.payload,
         isAuthenticated: true,
       };
+    case SET_ALL_USERS:
+      return {
+        ...state,
+        all: action.payload
+      }
     default:
       return state;
   }

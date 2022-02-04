@@ -7,3 +7,6 @@ export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILED = "REGISTER_FAILED";
 
 export const SET_USER = "SET_USER";
+
+export const GET_ALL_USERS = "GET_ALL_USERS";
+export const SET_ALL_USERS = "SET_ALL_USERS";
