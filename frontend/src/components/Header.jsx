@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import dummyProfilePic from "../assets/dummy-profile-pic.jpg";
-
-
+import { BiArrowBack } from "react-icons/bi";
 const HeaderWrapper = styled.div`
   width: 100%;
   background-color: #12244d;
   display: flex;
   align-items: center;
   padding: 1rem 2rem;
+  @media only screen and (max-width: 900px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const Avatar = styled.div`
@@ -19,6 +21,10 @@ const Avatar = styled.div`
   border-radius: 50%;
   & > img {
     width: 100%;
+  }
+  @media only screen and (max-width: 900px) {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 `;
 
@@ -43,17 +49,19 @@ const NameAndStatus = styled.div`
   }
 `;
 
-const Header = ({conversationPartner}) => {
+const Header = ({ conversationPartner, setConversationPartner, isMobile }) => {
+  const handleBackClick = () => {
+    setConversationPartner(null);
+  };
   return (
     <HeaderWrapper>
+      {isMobile ? <BiArrowBack onClick={handleBackClick} size={20} style={{marginRight: "5px"}} /> : null}
       <Avatar>
         <img src={dummyProfilePic} alt={dummyProfilePic} />
       </Avatar>
       <NameAndStatus>
         <p>{conversationPartner}</p>
-        <span>
-          {/* <span></span> Online */}
-        </span>
+        <span>{/* <span></span> Online */}</span>
       </NameAndStatus>
     </HeaderWrapper>
   );

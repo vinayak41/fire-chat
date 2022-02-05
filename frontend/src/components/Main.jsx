@@ -3,25 +3,32 @@ import ChatBox from "./ChatBox";
 import ChatList from "./ChatList";
 import socket from "../socket.io";
 import { useDispatch, useSelector } from "react-redux";
-import { newMessageReceived, setPreviousConversations } from "../redux/actions/conversationActions";
+import {
+  newMessageReceived,
+  setPreviousConversations,
+} from "../redux/actions/conversationActions";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const Main = () => {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
   const [conversationPartner, setConversationPartner] = useState(null);
+  const { height, width } = useWindowDimensions();
+  const isMobile = width < 520;
+  console.log(isMobile);
 
   useEffect(() => {
     socket.on("new_message", (payload) => {
       dispatch(newMessageReceived(payload));
     });
     socket.on("previous_conversations", (payload) => {
-      const conversations  = payload.map((conversation) => ({
+      const conversations = payload.map((conversation) => ({
         partner: conversation.senderReceiver.filter(
           (_username) => _username !== username
         )[0],
-        messages: conversation.messages
+        messages: conversation.messages,
       }));
-      dispatch(setPreviousConversations(conversations))
+      dispatch(setPreviousConversations(conversations));
     });
   }, []);
 
@@ -34,7 +41,13 @@ const Main = () => {
         conversationPartner={conversationPartner}
         setConversationPartner={setConversationPartner}
       />
-      <ChatBox conversationPartner={conversationPartner} />
+      {isMobile && !conversationPartner ? null : (
+        <ChatBox
+          conversationPartner={conversationPartner}
+          setConversationPartner={setConversationPartner}
+          isMobile={isMobile}
+        />
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoMdSettings } from "react-icons/io";
 import styled from "styled-components";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const Container = styled.div`
   position: absolute;
@@ -19,6 +20,7 @@ const Container = styled.div`
 
 const Setting = ({ openSetting, toggleSettingOpenClose }) => {
   const buttonRef = useRef();
+  const { width } = useWindowDimensions();
 
   const handleButtonClick = (event) => {
     toggleSettingOpenClose();
@@ -45,7 +47,7 @@ const Setting = ({ openSetting, toggleSettingOpenClose }) => {
   return (
     <>
       <span ref={buttonRef} onClick={handleButtonClick}>
-        <IoMdSettings size={28} />
+        <IoMdSettings size={width < 900 ? 21 : 28} />
       </span>
       {openSetting ? (
         <Container

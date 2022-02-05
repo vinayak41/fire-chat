@@ -20,6 +20,10 @@ const SendMsgWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media only screen and (max-width: 900px) {
+    width: calc(100% - 2rem);
+    margin: 1rem;
+  }
 `;
 
 const FormWrapper = styled.div`

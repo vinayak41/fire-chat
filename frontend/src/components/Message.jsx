@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  margin-top: 0.5rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
-  margin: 0.5rem 2rem 0rem 2rem;
+  margin: 0.5rem 0rem 0rem 2rem;
   display: flex;
   flex-direction: ${(props) => (props.own ? "row-reverse" : "row")};
+  @media only screen and (max-width: 900px) {
+    margin: 5px 0rem 0rem 1rem;
+  }
 `;
 
 const MessageBox = styled.div`

@@ -14,6 +14,9 @@ const Wrapper = styled.div`
   background-color: ${(props) => (props.active ? "#12244D" : "transparent")};
   padding: 1rem;
   border-radius: 0.5rem;
+  @media only screen and (max-width: 900px) {
+    padding: 5px;
+  }
 `;
 
 const Avatar = styled.div`
@@ -24,6 +27,10 @@ const Avatar = styled.div`
   border-radius: 50%;
   & > img {
     width: 100%;
+  }
+  @media only screen and (max-width: 900px) {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 `;
 
@@ -59,9 +66,16 @@ const UnreadMsgCount = styled.span`
   margin-left: 5px;
 `;
 
-const ChatListItem = ({ user, conversationPartner, setConversationPartner }) => {
+const ChatListItem = ({
+  user,
+  conversationPartner,
+  setConversationPartner,
+}) => {
   return (
-    <Wrapper active={user.username === conversationPartner} onClick={() => setConversationPartner(user.username)}>
+    <Wrapper
+      active={user.username === conversationPartner}
+      onClick={() => setConversationPartner(user.username)}
+    >
       <div>
         <Avatar>
           <img src={dummyProfilePic} alt="dog" />

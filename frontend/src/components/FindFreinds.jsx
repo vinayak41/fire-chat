@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Modal from "./Modal";
 import { getAllUsers } from "../redux/actions/userActions";
 import dummyProfilePic from "../assets/dummy-profile-pic.jpg";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const Button = styled.button`
   float: right;
@@ -24,6 +25,9 @@ const Container = styled.div`
   border-radius: 12px;
   position: relative;
   padding: 5px 0px 5px 5px;
+  @media only screen and (max-width: 520px) {
+    width: 80vw
+  }
 `;
 
 const SearchInput = styled.input`
@@ -112,6 +116,7 @@ const FindFreinds = ({ setConversationPartner }) => {
   const dispatch = useDispatch();
   const { all, username } = useSelector((state) => state.user);
   const [searchValue, setSearchValue] = useState("");
+  const { height, width } = useWindowDimensions();
 
   const filteredUsersList = all?.filter((user) =>
     user.username.includes(searchValue) && user.username !== username
@@ -143,7 +148,7 @@ const FindFreinds = ({ setConversationPartner }) => {
   return (
     <>
       <Button onClick={handleOpen}>
-        <MdPersonSearch size={32} />
+        <MdPersonSearch size={width < 900 ? 24 : 32} />
       </Button>
       <Modal isOpen={isOpen} handleClose={handleClose}>
         <Container>

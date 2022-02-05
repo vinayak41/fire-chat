@@ -8,17 +8,28 @@ import Setting from "./Setting";
 
 const ChatListWrapper = styled.div`
   background-color: #06103a;
-  width: 25rem;
-  height: calc(100vh - 2rem);
-  margin: 1rem;
+  width: 25%;
+  height: calc(100vh - 20px);
+  margin: 10px;
   padding: 1rem;
   border-radius: 1rem;
   border: 1px solid #3e5182;
+  @media only screen and (max-width: 900px) {
+    padding: 10px;
+    width: 38%;
+  }
+  @media only screen and (max-width: 520px) {
+    width: calc(100% - 20px );
+    position: absolute
+  }
 `;
 
 const Header = styled.h2`
   color: #bdc2d3;
   margin-top: 5px;
+  @media only screen and (max-width: 900px) {
+    font-size: 1.2rem
+  }
 `;
 const Title = styled.p`
   color: #bdc2d3;
@@ -39,8 +50,8 @@ const ChatList = ({ conversationPartner, setConversationPartner }) => {
   const { username } = useSelector((state) => state.user);
   const [openSetting, setOpenSetting] = useState(false);
   const toggleSettingOpenClose = () => {
-    setOpenSetting(!openSetting)
-  }
+    setOpenSetting(!openSetting);
+  };
   return (
     <ChatListWrapper>
       <Header>
