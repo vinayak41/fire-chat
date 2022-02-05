@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +19,8 @@
     "mongoose": "^6.1.6",
     "mongoose-unique-validator": "^3.0.0",
     "socket.io": "^4.4.1"
+  },
+  "engines": {
+    "node": "14.15.0"
   }
 }

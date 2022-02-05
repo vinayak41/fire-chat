@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-const ENDPOINT = "http://localhost:8000"
-const socket = io(ENDPOINT)
+import { SOCKET_URL } from "./utils/config";
+const socket = io(SOCKET_URL)
 
 export default socket;
