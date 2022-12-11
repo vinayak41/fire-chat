@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/actions/userActions";
 import Main from "./components/Main";
+import { SocketContextProvider } from "./Context/Socket";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -39,7 +40,13 @@ function App() {
   }, []);
   return (
     <AppWrapper>
-      {user?.isAuthenticated ? <Main /> : <LandingPage />}
+      {user?.isAuthenticated ? (
+        <SocketContextProvider>
+          <Main />
+        </SocketContextProvider>
+      ) : (
+        <LandingPage />
+      )}
     </AppWrapper>
   );
 }

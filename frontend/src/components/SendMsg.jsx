@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { BsEmojiLaughing } from "react-icons/bs";
 import { GrAttachment } from "react-icons/gr";
 import { RiSendPlaneFill } from "react-icons/ri";
-import socket from "../socket.io";
+// import socket from "../socket.io";
 import { useDispatch, useSelector } from "react-redux";
 import { newMessageSent } from "../redux/actions/conversationActions";
+import { useContext } from "react";
+import SocketContext from "../Context/Socket";
 
 const SendMsgWrapper = styled.div`
   height: 3.5rem;
@@ -66,6 +68,7 @@ const SendMsg = ({ conversationPartner }) => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const { username } = useSelector((state) => state.user);
+  const socket = useContext(SocketContext)
 
   const handleMsgChange = (event) => {
     setMessage(event.target.value);

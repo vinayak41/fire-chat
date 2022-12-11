@@ -8,9 +8,10 @@ const { errorHandler, unknownEndpoint } = require("./src/utils/middlewares");
 const cors = require("cors");
 // const Message = require("./src/models/message");
 const Conversations = require("./src/models/conversations");
+const conversationsRouter = require("./src/routes/conversation")
 
 const app = express();
-app.use(express.static("frontend/build"))
+app.use(express.static("frontend/build"));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -20,9 +21,8 @@ const io = new Server(httpServer, {
 });
 
 app.use(cors());
-app.use(express.json());
-
-let connectedUsers = [];
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 mongoose
   .connect(config.MONGODB_URI, {
@@ -37,30 +37,42 @@ mongoose
   });
 
 app.use("/api/users", usersRouter);
+app.use("/api/conversations", conversationsRouter)
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
+console.log(config.MONGODB_URI);
+
+let connectedUsers = [];
+
 io.on("connection", (socket) => {
-  socket.on("user_connected", async (payload) => {
-    //add new user connected user list
-    connectedUsers = connectedUsers.filter(
-      (user) => user.username !== payload.username
-    );
-    connectedUsers.push({ username: payload.username, socketId: socket.id });
+  const connectedUser = {
+    username: socket.handshake.query.username,
+    socketId: socket.id,
+  };
+  connectedUsers.push(connectedUser);
+  socket.broadcast.emit("new_user_connected", connectedUser);
 
-    //send connected user list to every connected user
-    socket.emit("connected_users", connectedUsers);
-    socket.broadcast.emit("connected_users", connectedUsers);
+  // socket.on("user_connected", async (payload) => {
+  //   //add new user connected user list
+  //   connectedUsers = connectedUsers.filter(
+  //     (user) => user.username !== payload.username
+  //   );
+  //   connectedUsers.push({ username: payload.username, socketId: socket.id });
 
-    //send previous conversation of connected user to that user
-    const previousConversations = await Conversations.find(
-      {
-        senderReceiver: { $in: [payload.username] },
-      },
-      { _id: 0 }
-    );
-    io.to(socket.id).emit("previous_conversations", previousConversations);
-  });
+  //   //send connected user list to every connected user
+  //   socket.emit("connected_users", connectedUsers);
+  //   socket.broadcast.emit("connected_users", connectedUsers);
+
+  //   //send previous conversation of connected user to that user
+  //   const previousConversations = await Conversations.find(
+  //     {
+  //       senderReceiver: { $in: [payload.username] },
+  //     },
+  //     { _id: 0 }
+  //   );
+  //   io.to(socket.id).emit("previous_conversations", previousConversations);
+  // });
 
   socket.on("send_message", async (message) => {
     //send message to receiver

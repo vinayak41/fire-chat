@@ -1,5 +1,6 @@
 import {
   CREATE_NEW_CONVERSATION,
+  GET_PREVIOUS_CONVERSATIONS,
   NEW_MESSAGE_RECEIVED,
   NEW_MESSAGE_SENT,
   SET_PREVIOUS_CONVERSATIONS,
@@ -18,6 +19,12 @@ export const newMessageSent = (message) => {
     payload: message,
   };
 };
+
+export const getPreviousConversations = () => {
+  return {
+    type: GET_PREVIOUS_CONVERSATIONS,
+  }
+}
 
 export const setPreviousConversations = (conversations) => {
   return {

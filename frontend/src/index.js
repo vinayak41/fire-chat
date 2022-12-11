@@ -19,12 +19,12 @@ const GlobalStyle = createGlobalStyle`
   }`;
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store} >
       <GlobalStyle />
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 

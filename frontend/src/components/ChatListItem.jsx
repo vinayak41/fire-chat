@@ -23,11 +23,20 @@ const Avatar = styled.div`
   width: 3rem;
   height: 3rem;
   border: 2px solid #e2e0d8;
-  overflow: hidden;
+  /* overflow: hidden; */
   border-radius: 50%;
-  & > img {
+  position: relative;
+
+  & > div {
     width: 100%;
+    height: 100%;
+    border-radius: 5rem;
+    overflow: hidden;
+    & > img {
+      width: 100%;
+    }
   }
+
   @media only screen and (max-width: 900px) {
     width: 2.5rem;
     height: 2.5rem;
@@ -66,11 +75,24 @@ const UnreadMsgCount = styled.span`
   margin-left: 5px;
 `;
 
+const OnlineIndicator = styled.span`
+  background-color: #21c700;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  z-index: 1;
+`;
+
 const ChatListItem = ({
   user,
   conversationPartner,
   setConversationPartner,
 }) => {
+  console.log({user})
   return (
     <Wrapper
       active={user.username === conversationPartner}
@@ -78,7 +100,11 @@ const ChatListItem = ({
     >
       <div>
         <Avatar>
-          <img src={dummyProfilePic} alt="dog" />
+          <div>
+            <img src={dummyProfilePic} alt="dog" />
+          </div>
+          <span className></span>
+          <OnlineIndicator />
         </Avatar>
         <NameAndLastMsg>
           <p>{user.username}</p>
@@ -87,7 +113,7 @@ const ChatListItem = ({
       </div>
       <LastMsgDay>
         {/* 30/11/2021 */}
-        {/* <UnreadMsgCount>3</UnreadMsgCount>s */}
+        {/* <UnreadMsgCount>3</UnreadMsgCount> */}
       </LastMsgDay>
     </Wrapper>
   );

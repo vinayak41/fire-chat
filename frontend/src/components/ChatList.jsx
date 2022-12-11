@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import socket from "../socket.io";
 import ChatListItem from "./ChatListItem";
 import FindFreinds from "./FindFreinds";
 import Setting from "./Setting";
