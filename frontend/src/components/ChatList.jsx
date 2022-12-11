@@ -18,8 +18,8 @@ const ChatListWrapper = styled.div`
     width: 38%;
   }
   @media only screen and (max-width: 520px) {
-    width: calc(100% - 20px );
-    position: absolute
+    width: calc(100% - 20px);
+    position: absolute;
   }
 `;
 
@@ -27,7 +27,7 @@ const Header = styled.h2`
   color: #bdc2d3;
   margin-top: 5px;
   @media only screen and (max-width: 900px) {
-    font-size: 1.2rem
+    font-size: 1.2rem;
   }
 `;
 const Title = styled.p`
@@ -46,11 +46,12 @@ const SettingButton = styled.button`
 
 const ChatList = ({ conversationPartner, setConversationPartner }) => {
   const conversations = useSelector((state) => state.conversations);
-  const { username } = useSelector((state) => state.user);
+  const connectedUsers = useSelector((state) => state.connectedUsers);
   const [openSetting, setOpenSetting] = useState(false);
   const toggleSettingOpenClose = () => {
     setOpenSetting(!openSetting);
   };
+  console.log(connectedUsers);
   return (
     <ChatListWrapper>
       <Header>
@@ -63,16 +64,21 @@ const ChatList = ({ conversationPartner, setConversationPartner }) => {
         </SettingButton>
         <FindFreinds setConversationPartner={setConversationPartner} />
       </Header>
-      {conversations.map((conversation) =>
-        conversation.partner === username ? null : (
-          <ChatListItem
-            key={conversation.partner}
-            user={{ username: conversation.partner }}
-            conversationPartner={conversationPartner}
-            setConversationPartner={setConversationPartner}
-          />
-        )
-      )}
+      {conversations.map((conversation) => (
+        <ChatListItem
+          key={conversation.partner}
+          user={{
+            username: conversation.partner,
+            isOnline: Boolean(
+              connectedUsers.find(({ username }) => {
+                return username === conversation.partner;
+              })
+            ),
+          }}
+          conversationPartner={conversationPartner}
+          setConversationPartner={setConversationPartner}
+        />
+      ))}
     </ChatListWrapper>
   );
 };

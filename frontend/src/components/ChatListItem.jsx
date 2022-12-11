@@ -92,7 +92,6 @@ const ChatListItem = ({
   conversationPartner,
   setConversationPartner,
 }) => {
-  console.log({user})
   return (
     <Wrapper
       active={user.username === conversationPartner}
@@ -104,7 +103,7 @@ const ChatListItem = ({
             <img src={dummyProfilePic} alt="dog" />
           </div>
           <span className></span>
-          <OnlineIndicator />
+          {user.isOnline ? <OnlineIndicator /> : null}
         </Avatar>
         <NameAndLastMsg>
           <p>{user.username}</p>

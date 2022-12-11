@@ -29,10 +29,10 @@ export default (state = initialState, action) => {
         ];
       }
     case NEW_MESSAGE_SENT:
-     var conversationExists = state.find(
+      var conversationExists = state.find(
         (conversation) => conversation.partner === action.payload.receiver
       );
-      if(conversationExists) {
+      if (conversationExists) {
         return state.map((conversation) => {
           return conversation.partner === action.payload.receiver
             ? {
@@ -48,9 +48,9 @@ export default (state = initialState, action) => {
         ];
       }
     case SET_PREVIOUS_CONVERSATIONS:
-      return action.payload
+      return action.payload;
     case CREATE_NEW_CONVERSATION:
-      return [...state, {partner: action.payload, messages: []}]
+      return [...state, { partner: action.payload, messages: [] }];
     default:
       return state;
   }

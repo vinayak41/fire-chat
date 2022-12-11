@@ -13,6 +13,7 @@ export const SocketContextProvider = ({ children }) => {
     () => io(SOCKET_URL, { query: { username: user.username } }),
     []
   );
+  console.log(socket)
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );

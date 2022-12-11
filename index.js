@@ -8,7 +8,7 @@ const { errorHandler, unknownEndpoint } = require("./src/utils/middlewares");
 const cors = require("cors");
 // const Message = require("./src/models/message");
 const Conversations = require("./src/models/conversations");
-const conversationsRouter = require("./src/routes/conversation")
+const conversationsRouter = require("./src/routes/conversation");
 
 const app = express();
 app.use(express.static("frontend/build"));
@@ -37,7 +37,7 @@ mongoose
   });
 
 app.use("/api/users", usersRouter);
-app.use("/api/conversations", conversationsRouter)
+app.use("/api/conversations", conversationsRouter);
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
@@ -50,29 +50,12 @@ io.on("connection", (socket) => {
     username: socket.handshake.query.username,
     socketId: socket.id,
   };
-  connectedUsers.push(connectedUser);
-  socket.broadcast.emit("new_user_connected", connectedUser);
+  connectedUsers.push(connectedUser)
+  socket.emit("connected_users", connectedUsers)
+  socket.broadcast.emit("connected_users", connectedUsers);
 
-  // socket.on("user_connected", async (payload) => {
-  //   //add new user connected user list
-  //   connectedUsers = connectedUsers.filter(
-  //     (user) => user.username !== payload.username
-  //   );
-  //   connectedUsers.push({ username: payload.username, socketId: socket.id });
-
-  //   //send connected user list to every connected user
-  //   socket.emit("connected_users", connectedUsers);
-  //   socket.broadcast.emit("connected_users", connectedUsers);
-
-  //   //send previous conversation of connected user to that user
-  //   const previousConversations = await Conversations.find(
-  //     {
-  //       senderReceiver: { $in: [payload.username] },
-  //     },
-  //     { _id: 0 }
-  //   );
-  //   io.to(socket.id).emit("previous_conversations", previousConversations);
-  // });
+  console.log("--x--x--x--x--")
+  console.log(connectedUsers)
 
   socket.on("send_message", async (message) => {
     //send message to receiver
@@ -109,7 +92,7 @@ io.on("connection", (socket) => {
     connectedUsers = connectedUsers.filter(
       (user) => user.socketId !== socket.id
     );
-    socket.broadcast.emit("connected_users", connectedUsers);
+    socket.broadcast.emit("update_connected_users", connectedUsers);
   });
 });
 

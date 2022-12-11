@@ -23,8 +23,8 @@ export const newMessageSent = (message) => {
 export const getPreviousConversations = () => {
   return {
     type: GET_PREVIOUS_CONVERSATIONS,
-  }
-}
+  };
+};
 
 export const setPreviousConversations = (conversations) => {
   return {
