@@ -54,9 +54,6 @@ io.on("connection", (socket) => {
   socket.emit("connected_users", connectedUsers)
   socket.broadcast.emit("connected_users", connectedUsers);
 
-  console.log("--x--x--x--x--")
-  console.log(connectedUsers)
-
   socket.on("send_message", async (message) => {
     //send message to receiver
     const receiverSocketId = connectedUsers.find(
